@@ -55,8 +55,10 @@ function game () {
     }
     if (computerWins > playerWins) {
         console.log('You lost! Better luck next time!')
+    } else if (computerWins == playerWins) {
+        console.log('It\'s a tie! Close call!')
     } else {
         console.log('You win! Hooray!')
     }
-    return
+    return 'GAME OVER'
 }
