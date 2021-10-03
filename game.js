@@ -1,47 +1,102 @@
-// Establishes choices of rock, paper, or scissors in an array. To be referenced by options[x] in computerChoice.
-let options = ['rock', 'paper', 'scissors']
+const options = ['rock', 'paper', 'scissors'];
+const playerScore = document.querySelector('#playerScore');
+const computerScore = document.querySelector('#computerScore'); 
+const winner = document.querySelector('#winner');
+const btns = document.querySelectorAll('button');
+const results = document.querySelector('results');
 
-// Has computer randomly select an index from options and prints choice to console. Stores item in computerChoice.
+let pScore = 0;
+let cScore = 0;
+let rounds = 0;
+
 function computerPlay () {
     let computerChoice = options[Math.floor(Math.random() * 3)];
     console.log(computerChoice);
     return computerChoice;
 }
 
-// Plays a round of Rock, Paper, Scissors utilizing options and computerPlay()
-function round (playerChoice, computerChoice) {
-    playerChoice = prompt("Rock, Paper, or Scissors?").toLowerCase(); // Prompts user to type in rock, paper, or scissors. Converts input to lowercase to match options format. Stores in playerChoice.
-    computerChoice = computerPlay(); // Calls function to select rock, paper, or scissors from options array. (Maybe I should change the variable name in this function to distinguish from function's value))
-
-    if (playerChoice == computerChoice) { // Condition if player chooses same option as computer. Covers three game states (rock/rock, paper/paper, scissor/scissor).
-        return 'It\'s a tie!'
-    } else if (playerChoice != computerChoice) { // Umbrella condition if player and computer choices do not match up.
-        if (playerChoice == 'rock') { // If/elif chain acknowledging different player choices
-            if (computerChoice == 'scissors') { // Given player choice, reflects win state if computer's choice relative to player's will lose the game.
-                return 'You win!'
+function round (playerChoice) {
+    computerChoice = computerPlay();
+    if (playerChoice == computerChoice) {
+        console.log('It\'s a tie!')
+        return 2
+    } else if (playerChoice != computerChoice) {
+        if (playerChoice == 'rock') {
+            if (computerChoice == 'scissors') {
+                console.log('You win!')
+                return 0
             } else {
-                return 'You lose!';
+                console.log('You lose!')
+                return 1
             }
         } else if (playerChoice == 'paper') {
-            breakme2: if (computerChoice == 'rock') {
-                return 'You win!'
+            if (computerChoice == 'rock') {
+                console.log('You win!')
+                return 0
             } else {
-                return 'You lose!';
+                console.log('You lose!')
+                return 1
             }
         } else if (playerChoice == 'scissors') {
             breakme3: if (computerChoice == 'paper') {
-                return 'You win!'
+                console.log('You win!')
+                return 0
             } else {
-                return 'You lose!';
+                console.log('You lose!')
+                return 1
             }
         } 
     }
 }
 
-/* Description: Uses for loop to conduct 5 different rounds and logs points earned by Player/Computer.
-Logs score and returns statement declaring the winner. */
-function game () { 
-    let playerWins = 0;
+
+function game(result) {
+    while (rounds < 4) {
+        rounds += 1;
+        if (result == 0) {
+            pScore += 1;
+            playerScore.textContent = `Player: ${pScore}`;
+            winner.textContent = 'You win this round!'
+            return
+        } else if (result == 1) {
+            cScore += 1;
+            computerScore.textContent = `Computer: ${cScore}`;
+            winner.textContent = 'You lose this one! Oof!'
+            return
+        } else {
+            winner.textContent = 'We have a tie!';
+            return
+        }
+    } 
+    if (pScore > cScore) {
+        winner.textContent = 'You win the game! Here is a cookie!';
+    } else if (cScore > pScore) {
+        winner.textContent = 'You lose! Better luck next time, chump!';
+    } else {
+        winner.textContent = 'It\'s a tie! Who woulda thunk it?';
+    }
+    return
+}
+
+
+
+btns.forEach((button) => {
+    button.addEventListener('click', () => {
+        let choice = button.value;
+        let result = round(choice);
+        game(result);
+    });
+});
+
+
+
+
+
+
+
+
+
+    /*let playerWins = 0;
     let computerWins = 0;
     for (let rounds = 0; rounds <= 4; rounds += 1) {
         result = round();
@@ -60,5 +115,4 @@ function game () {
     } else {
         console.log('You win! Hooray!')
     }
-    return 'GAME OVER'
-}
+    return console.log('GAME OVER') */
